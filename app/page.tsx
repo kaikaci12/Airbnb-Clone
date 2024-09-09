@@ -1,5 +1,4 @@
-
-
+"use client";
 export default function Home() {
-  return <div>hello vercel</div>;
+  return <div className=""></div>;
 }
