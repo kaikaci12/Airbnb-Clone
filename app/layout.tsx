@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "./components/navbar/Navbar";
 import ClientOnly from "./components/ClientOnly";
-import Modal from "./components/modal/Modal";
+
+import RegisterModal from "./components/modal/RegisterModal";
 
 export const metadata: Metadata = {
   title: "Airbnb",
@@ -19,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ClientOnly>
-          <Modal actionLabel="Submit" title="hello world" isOpen />
+          <RegisterModal />
           <Navbar />
         </ClientOnly>
         {children}

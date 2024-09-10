@@ -10,9 +10,10 @@ interface ModalProps {
   footer?: string;
   actionLabel?: string;
   disabled?: boolean;
-  secondaryAction?: () => void;
+  secondaryActionLabel?: () => void;
   secondaryLabel?: string;
   body: string;
+  secondaryAction: () => void;
 }
 
 export default function Modal({
@@ -22,8 +23,10 @@ export default function Modal({
   title,
   footer,
   disabled,
-  secondaryAction,
+  secondaryActionLabel,
   secondaryLabel,
+  secondaryAction,
+
   actionLabel,
   body,
 }: ModalProps) {
@@ -81,11 +84,13 @@ export default function Modal({
               <div className="relative p-6 flex-auto ">{body}</div>
               <div className="flex flex-col gap-2  p-6">
                 <div className="flex flex-row items-center gap-4 w-full ">
-                  <Button
-                    disabled={disabled}
-                    label={actionLabel}
-                    onClick={handleSubmit}
-                  />
+                  {secondaryActionLabel && secondaryAction && (
+                    <Button
+                      disabled={disabled}
+                      onClick={handleSecondaryAction}
+                    />
+                  )}
+
                   <Button
                     disabled={disabled}
                     label={actionLabel}
