@@ -79,18 +79,18 @@ export default function RegisterModal() {
         onClick={() => {}}
       />
       <Button
-        label="Continue With Google"
+        label="Continue With GitHub"
         outline
-        icon={}
+        icon={AiFillGithub}
         onClick={() => {
-          AiFillGithub;
+          console.log("Continue with GitHub clicked");
         }}
       />
       <div className="justify-center text-neutral-500 text-center mt-4 font-light">
         <div className="flex gap-2 items-center">
           <div>Already have an account?</div>
           <div
-            onClick={registerModel.onClose}
+            onClick={registerModal.onClose}
             className="text-neutral-500 cursor-pointer hover:underline"
           >
             Login
@@ -99,6 +99,7 @@ export default function RegisterModal() {
       </div>
     </div>
   );
+
   return (
     <Modal
       disabled={isLoading}
