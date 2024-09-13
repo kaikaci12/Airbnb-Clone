@@ -1,20 +1,30 @@
-import prisma from "@/lib/prismadb";
 import bcrypt from "bcrypt";
+import dbConnect from "@/lib/dbConnect"; // Import your Mongoose connection
+import User from "@/models/user"; // Import your Mongoose User model
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  const body = await request.json();
-  const { email, name, password } = body;
+  try {
+    const body = await request.json();
+    const { email, name, password } = body;
 
-  const hashedPassword = await bcrypt.hash(password, 12);
+    // Ensure the Mongoose connection is established
+    await dbConnect();
 
-  const user = await prisma.user.create({
-    data: {
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    // Create a new user
+    const user = await User.create({
       email,
       name,
       hashedPassword,
-    },
-  });
+    });
 
-  return NextResponse.json(user);
+    // Return the created user
+    return NextResponse.json(user);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Error creating user" }, { status: 500 });
+  }
 }

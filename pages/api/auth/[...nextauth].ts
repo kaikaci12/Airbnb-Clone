@@ -1,13 +1,12 @@
-import prisma from "@/lib/prismadb";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import bcrypt from "bcrypt";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
+import bcrypt from "bcrypt";
+import dbConnect from "@/lib/dbConnect"; // Import your Mongoose connection
+import User from "@/models/user"; // Import your Mongoose User model
 
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -28,13 +27,13 @@ export const authOptions: AuthOptions = {
           throw new Error("Invalid credentials");
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        });
+        await dbConnect(); // Ensure the Mongoose connection is established
 
-        if (!user || !user?.hashedPassword) {
+        const user = await User.findOne({
+          email: credentials.email,
+        }).exec();
+
+        if (!user || !user.hashedPassword) {
           throw new Error("Invalid credentials");
         }
 
@@ -45,6 +44,7 @@ export const authOptions: AuthOptions = {
         if (!isCorrectPassword) {
           throw new Error("Invalid credentials");
         }
+
         return user;
       },
     }),
