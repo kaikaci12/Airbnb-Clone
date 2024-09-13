@@ -24,7 +24,7 @@ export default function Modal({
   footer,
   disabled,
   secondaryActionLabel,
-  secondaryLabel,
+  // secondaryLabel,
   secondaryAction,
 
   actionLabel,
