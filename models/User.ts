@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-const { Schema } = mongoose;
+import mongoose, { Schema, InferSchemaType } from "mongoose";
 
+// Define the user schema
 const userSchema = new Schema({
   name: { type: String, required: false },
   email: { type: String, unique: true, required: false },
@@ -15,6 +15,11 @@ const userSchema = new Schema({
   reservations: [{ type: Schema.Types.ObjectId, ref: "Reservation" }],
 });
 
+// Define the Mongoose model
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
+// Infer the TypeScript type from the schema
+export type UserType = InferSchemaType<typeof userSchema>;
+
+// Export both the model and the inferred type
 export default User;

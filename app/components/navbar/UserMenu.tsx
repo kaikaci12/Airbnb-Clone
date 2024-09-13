@@ -4,8 +4,12 @@ import Avatar from "../Avatar";
 import { useState } from "react";
 import { useRegisterModal } from "@/app/hooks/useRegisterModal";
 import { useLoginModal } from "@/app/hooks/useLoginModal";
+import { UserType } from "@/models/user";
 import MenuItem from "./MenuItem";
-export default function UserMenu() {
+interface UserMenuProps {
+  currentUser?: UserType | null;
+}
+export default function UserMenu({ currentUser }: UserMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
