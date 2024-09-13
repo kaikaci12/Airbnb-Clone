@@ -6,6 +6,7 @@ import { useRegisterModal } from "@/app/hooks/useRegisterModal";
 import { useLoginModal } from "@/app/hooks/useLoginModal";
 import { UserType } from "@/models/user";
 import MenuItem from "./MenuItem";
+import { signOut } from "next-auth/react";
 interface UserMenuProps {
   currentUser?: UserType | null;
 }
@@ -37,10 +38,27 @@ export default function UserMenu({ currentUser }: UserMenuProps) {
       {isOpen && (
         <div className="absolute rounded-xl shadow-md w-[15vw] bg-white overflow-hidden top-12 right-0 text-sm">
           <div className="flex flex-col cursor-pointer">
-            <>
-              <MenuItem onClick={loginModal.onOpen} label="Login" />
-              <MenuItem onClick={registerModal.onOpen} label="Sign up" />
-            </>
+            {currentUser ? (
+              <>
+                <MenuItem onClick={() => {}} label="My trips" />
+                <MenuItem onClick={() => {}} label="My favorites" />
+                <MenuItem onClick={() => {}} label="My reservations" />
+                <MenuItem onClick={() => {}} label="My properties" />
+                <MenuItem onClick={() => {}} label="Airbnb my Home" />
+                <hr />
+                <MenuItem
+                  onClick={() => {
+                    signOut();
+                  }}
+                  label="Log out"
+                />
+              </>
+            ) : (
+              <>
+                <MenuItem onClick={loginModal.onOpen} label="Login" />
+                <MenuItem onClick={registerModal.onOpen} label="Sign up" />
+              </>
+            )}
           </div>
         </div>
       )}
