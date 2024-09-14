@@ -11,6 +11,7 @@ import Heading from "../Heading";
 import Input from "../inputs/Input";
 import toast from "react-hot-toast";
 import Button from "../Button";
+import { signIn } from "next-auth/react";
 
 export default function RegisterModal() {
   const registerModal = useRegisterModal();
@@ -76,15 +77,16 @@ export default function RegisterModal() {
         label="Continue With Google"
         outline
         icon={FcGoogle}
-        onClick={() => {}}
+        onClick={() => {
+          signIn("google");
+          console.log("google login");
+        }}
       />
       <Button
         label="Continue With GitHub"
         outline
         icon={AiFillGithub}
-        onClick={() => {
-          console.log("Continue with GitHub clicked");
-        }}
+        onClick={() => signIn("github")}
       />
       <div className="justify-center text-neutral-500 text-center mt-4 font-light">
         <div className="flex gap-2 items-center">

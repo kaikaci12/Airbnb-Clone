@@ -5,14 +5,13 @@ import Logo from "./Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
 
-import { UserType } from "@/models/user";
+// import { SafeUser } from "@/app/types";
+import { UserType } from "@/models/User";
 
 interface NavbarProps {
-  currentUser?: UserType | null;
+  currentUser?: UserType;
 }
 function Navbar({ currentUser }: NavbarProps) {
-  console.log(currentUser);
-
   return (
     <div className="fixed w-full  bg-white shadow-sm ">
       <div className="py-4 border-b-[1px]">

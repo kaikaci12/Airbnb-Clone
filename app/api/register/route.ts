@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import dbConnect from "@/lib/dbConnect"; // Import your Mongoose connection
-import User from "@/models/user"; // Import your Mongoose User model
+import User from "@/models/User"; // Import your Mongoose User model
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {

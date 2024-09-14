@@ -84,17 +84,17 @@ export default function LoginModal() {
         outline
         icon={AiFillGithub}
         onClick={() => {
-          console.log("Continue with GitHub clicked");
+          signIn("github");
         }}
       />
       <div className="justify-center text-neutral-500 text-center mt-4 font-light">
         <div className="flex gap-2 items-center">
-          <div>Already have an account?</div>
+          <div>Dont Have an Account?</div>
           <div
             onClick={registerModal.onClose}
             className="text-neutral-500 cursor-pointer hover:underline"
           >
-            Login
+            Register
           </div>
         </div>
       </div>

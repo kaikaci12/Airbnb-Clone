@@ -1,19 +1,15 @@
 import mongoose from "mongoose";
 
-const { Schema } = mongoose;
-
-const accountSchema = new Schema({
-  userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  type: { type: String, required: true },
+const accountSchema = new mongoose.Schema({
+  _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   provider: { type: String, required: true },
   providerAccountId: { type: String, required: true },
-  refresh_token: { type: String, required: false },
-  access_token: { type: String, required: false },
-  expires_at: { type: Number, required: false },
-  token_type: { type: String, required: false },
-  scope: { type: String, required: false },
-  id_token: { type: String, required: false },
-  session_state: { type: String, required: false },
+  access_token: { type: String },
+  refresh_token: { type: String },
+  expires_at: { type: Number },
+  token_type: { type: String },
+  id_token: { type: String },
 });
 
 const Account =

@@ -4,7 +4,7 @@ import Avatar from "../Avatar";
 import { useState } from "react";
 import { useRegisterModal } from "@/app/hooks/useRegisterModal";
 import { useLoginModal } from "@/app/hooks/useLoginModal";
-import { UserType } from "@/models/user";
+import { UserType } from "@/models/User";
 import MenuItem from "./MenuItem";
 import { signOut } from "next-auth/react";
 interface UserMenuProps {
@@ -31,7 +31,7 @@ export default function UserMenu({ currentUser }: UserMenuProps) {
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            <Avatar />
+            <Avatar src={currentUser?.image} />
           </div>
         </div>
       </div>
