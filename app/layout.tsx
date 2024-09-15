@@ -6,6 +6,7 @@ import ClientOnly from "./components/ClientOnly";
 import RegisterModal from "./components/modal/RegisterModal";
 import ToasterProvider from "./providers/ToasterProvider";
 import LoginModal from "./components/modal/LoginModal";
+import RentModal from "./components/modal/RentModal";
 import getCurrentUser from "./actions/getCurrentUser";
 import Loading from "./page/loading";
 export const metadata: Metadata = {
@@ -25,12 +26,14 @@ export default async function RootLayout({
       <body>
         <ClientOnly>
           <ToasterProvider />
+          <RentModal />
           <LoginModal />
           <RegisterModal />
 
           <Navbar currentUser={currentUser} />
         </ClientOnly>
-        <Loading>{children}</Loading>
+        <Loading />
+        {children}
       </body>
     </html>
   );
