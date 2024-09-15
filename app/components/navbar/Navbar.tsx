@@ -4,7 +4,7 @@ import Container from "../Container";
 import Logo from "./Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
-
+import Categories from "./Categories";
 // import { SafeUser } from "@/app/types";
 import { UserType } from "@/models/User";
 
@@ -23,6 +23,7 @@ function Navbar({ currentUser }: NavbarProps) {
           </div>
         </Container>
       </div>
+      <Categories />
     </div>
   );
 }

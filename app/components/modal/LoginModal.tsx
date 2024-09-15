@@ -83,8 +83,15 @@ export default function LoginModal() {
         label="Continue With GitHub"
         outline
         icon={AiFillGithub}
-        onClick={() => {
-          signIn("github");
+        onClick={async () => {
+          try {
+            const result = await signIn("github");
+            if (result) {
+              toast.successs("Sign in with Guthub was successfull");
+            }
+          } catch (e) {
+            toast.error(e.message);
+          }
         }}
       />
       <div className="justify-center text-neutral-500 text-center mt-4 font-light">

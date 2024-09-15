@@ -79,7 +79,6 @@ export default function RegisterModal() {
         icon={FcGoogle}
         onClick={() => {
           signIn("google");
-          console.log("google login");
         }}
       />
       <Button

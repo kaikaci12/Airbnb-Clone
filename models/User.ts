@@ -18,6 +18,7 @@ const userSchema = new Schema(
 );
 
 // Define the Mongoose model
+
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 // Infer the TypeScript type from the schema
