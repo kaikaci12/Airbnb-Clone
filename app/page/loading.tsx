@@ -1,11 +1,12 @@
+"use client";
 import { motion } from "framer-motion";
 
 const Loading = () => (
   <motion.div
     initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
+    animate={{ opacity: 2 }}
     exit={{ opacity: 0 }}
-    transition={{ duration: 0.5 }}
+    transition={{ duration: 0 }}
     className="loading-screen"
   >
     <div className="spinner"></div>

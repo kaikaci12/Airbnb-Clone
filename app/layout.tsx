@@ -30,7 +30,7 @@ export default async function RootLayout({
 
           <Navbar currentUser={currentUser} />
         </ClientOnly>
-        {children}
+        <Loading>{children}</Loading>
       </body>
     </html>
   );

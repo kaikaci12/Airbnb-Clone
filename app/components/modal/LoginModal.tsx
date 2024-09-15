@@ -2,7 +2,7 @@
 import { signIn } from "next-auth/react";
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useRegisterModal } from "@/app/hooks/useRegisterModal";
 import { FieldValues, useForm, SubmitHandler } from "react-hook-form";
@@ -24,7 +24,6 @@ export default function LoginModal() {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: " ",
       email: " ",
       password: " ",
     },
@@ -69,7 +68,10 @@ export default function LoginModal() {
       />
     </div>
   );
-
+  const toggle = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
       <hr />
@@ -98,10 +100,10 @@ export default function LoginModal() {
         <div className="flex gap-2 items-center">
           <div>Dont Have an Account?</div>
           <div
-            onClick={registerModal.onClose}
-            className="text-neutral-500 cursor-pointer hover:underline"
+            onClick={toggle}
+            className="text-neutral-500 cursor-pointer hover:underline text-bold"
           >
-            Register
+            Create An Account
           </div>
         </div>
       </div>

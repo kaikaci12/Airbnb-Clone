@@ -1,18 +1,17 @@
+"use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback } from "react";
 import qs from "query-string";
 import { IconType } from "react-icons";
-import { query } from "express";
+
 interface CategoryBoxProps {
   icon: IconType;
   label: string;
-  description: string;
   selected: boolean;
 }
 export default function CategoryBox({
   icon: Icon,
   label,
-  description,
   selected,
 }: CategoryBoxProps) {
   const router = useRouter();
@@ -22,7 +21,7 @@ export default function CategoryBox({
     if (params) {
       currentQuery = qs.parse(params.toString());
     }
-    const updatedQuery: any = {
+    const updatedQuery = {
       ...currentQuery,
       category: label,
     };
