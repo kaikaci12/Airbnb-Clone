@@ -6,6 +6,7 @@ import CategoryInput from "../inputs/CategoryInput";
 import { useRentModal } from "@/app/hooks/useRentModal";
 import Heading from "../Heading";
 import CountrySelect from "../inputs/CountrySelect";
+import Map from "../Map";
 import { categories } from "../navbar/Categories";
 import { useForm, FieldValues } from "react-hook-form";
 enum STEPS {
@@ -103,7 +104,11 @@ export default function RentModal() {
           title="Where is you place located"
           subtitle="Help guests find you!"
         />
-        <CountrySelect />
+        <CountrySelect
+          value={location}
+          onChange={(value) => setCustomValue("location", value)}
+        />
+        <Map />
       </div>
     );
   }

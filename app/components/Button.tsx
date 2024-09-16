@@ -2,7 +2,7 @@
 import React from "react";
 import { IconType } from "react-icons";
 interface ButtonProps {
-  label?: string;
+  label?: string | undefined;
 
   onClick?: () => void;
   disabled?: boolean;
