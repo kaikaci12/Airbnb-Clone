@@ -5,6 +5,7 @@ import Modal from "./Modal";
 import CategoryInput from "../inputs/CategoryInput";
 import { useRentModal } from "@/app/hooks/useRentModal";
 import Heading from "../Heading";
+import CountrySelect from "../inputs/CountrySelect";
 import { categories } from "../navbar/Categories";
 import { useForm, FieldValues } from "react-hook-form";
 enum STEPS {
@@ -44,6 +45,7 @@ export default function RentModal() {
   const roomCount = watch("roomCount");
   const bathroomCount = watch("bathroomCount");
   const imageSrc = watch("imageSrc");
+
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
       shouldValidate: true,
@@ -93,17 +95,31 @@ export default function RentModal() {
       </div>
     </div>
   );
+  if (step == STEPS.LOCATION) {
+    bodyContent = (
+      <div className="flex flex-col gap-8 ">
+        LocationStep
+        <Heading
+          title="Where is you place located"
+          subtitle="Help guests find you!"
+        />
+        <CountrySelect />
+      </div>
+    );
+  }
   return (
     <div>
       <Modal
         // disabled={isLoading}
         isOpen={rentModal.isOpen}
+        onClose={rentModal.onClose}
         title="Airbnb your home!"
         actionLabel={actionLabel}
+        onSubmit={onNext}
         // onSubmit={handleSubmit(onSubmit)}
         secondaryActionLabel={secondaryActionLabel}
+        secondaryLabel={secondaryActionLabel}
         secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-        onClose={rentModal.onClose}
         body={bodyContent}
       />
     </div>

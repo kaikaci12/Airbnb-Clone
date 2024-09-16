@@ -8,12 +8,12 @@ interface ModalProps {
   onSubmit?: () => void;
   title?: string;
   footer?: string;
-  actionLabel?: string;
+  actionLabel?: string | undefined;
   disabled?: boolean;
-  secondaryActionLabel?: () => void;
+  secondaryActionLabel?: () => void | undefined | string;
   secondaryLabel?: string;
   body: string;
-  secondaryAction: () => void;
+  secondaryAction: () => void | undefined;
 }
 
 export default function Modal({
@@ -86,15 +86,16 @@ export default function Modal({
                 <div className="flex flex-row items-center gap-4 w-full ">
                   {secondaryActionLabel && secondaryAction && (
                     <Button
+                      label={secondaryActionLabel}
                       disabled={disabled}
-                      onClick={handleSecondaryAction}
+                      onClick={secondaryAction}
                     />
                   )}
 
                   <Button
                     disabled={disabled}
                     label={actionLabel}
-                    onClick={handleSubmit}
+                    onClick={onSubmit}
                   />
                 </div>
                 {footer}
