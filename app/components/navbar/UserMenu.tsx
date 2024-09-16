@@ -55,7 +55,7 @@ export default function UserMenu({ currentUser }: UserMenuProps) {
                 <MenuItem onClick={() => {}} label="My favorites" />
                 <MenuItem onClick={() => {}} label="My reservations" />
                 <MenuItem onClick={() => {}} label="My properties" />
-                <MenuItem onClick={() => {}} label="Airbnb my Home" />
+                <MenuItem onClick={rentModal.onOpen} label="Airbnb my Home" />
                 <hr />
                 <MenuItem
                   onClick={() => {
