@@ -5,12 +5,12 @@ import Button from "../Button";
 interface ModalProps {
   isOpen: boolean;
   onClose?: () => void;
-  onSubmit?: () => void;
+  onSubmit?: () => void | undefined;
   title?: string;
   footer?: string;
   actionLabel?: string | undefined;
   disabled?: boolean;
-  secondaryActionLabel?: () => void | undefined | string;
+  secondaryActionLabel?: string | undefined;
   secondaryLabel?: string;
   body: string;
   secondaryAction: () => void | undefined;
@@ -96,7 +96,7 @@ export default function Modal({
                   <Button
                     disabled={disabled}
                     label={actionLabel}
-                    onClick={onSubmit}
+                    onClick={handleSubmit}
                   />
                 </div>
                 {footer}
