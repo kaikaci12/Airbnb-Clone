@@ -66,6 +66,9 @@ export default function RentModal() {
   };
 
   const onBack = () => {
+    if (step == 1) {
+      return;
+    }
     setStep((step) => step - 1);
   };
   const onNext = () => {
@@ -122,6 +125,7 @@ export default function RentModal() {
       </div>
     );
   }
+  console.log(step);
   if (step === STEPS.INFO) {
     bodyContent = (
       <div className="flex flex-col gap-8">
@@ -129,7 +133,40 @@ export default function RentModal() {
           title="Share some Basics about your place"
           subtitle="What amenities do you have?"
         />
-        <Counter title="Number of guests" subtitle="How many guests" />
+        <Counter
+          onChange={(value) => setCustomValue("guestCount", value)}
+          value={guestCount}
+          title="Guests"
+          subtitle="How many guests do you allow?"
+        />
+        <hr />
+        <Counter
+          onChange={(value) => setCustomValue("roomCount", value)}
+          value={roomCount}
+          title="Rooms"
+          subtitle="How many Rooms do you have"
+        />
+        <hr />
+        <Counter
+          onChange={(value) => setCustomValue("bathroomCount", value)}
+          value={bathroomCount}
+          title="Bathrooms"
+          subtitle="How many bathrooms do you have"
+        />
+      </div>
+    );
+  }
+  if (step === STEPS.IMAGES) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Add a photo of your place"
+          subtitle="Show guests what your place looks like!"
+        />
+        <ImageUpload
+          onChange={(value) => setCustomValue("imageSrc", value)}
+          value={imageSrc}
+        />
       </div>
     );
   }
@@ -145,7 +182,7 @@ export default function RentModal() {
         // onSubmit={handleSubmit(onSubmit)}
         secondaryActionLabel={secondaryActionLabel}
         secondaryLabel={secondaryActionLabel}
-        secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
+        secondaryAction={onBack}
         body={bodyContent}
       />
     </div>
