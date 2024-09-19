@@ -1,27 +1,34 @@
 "use client";
-import React from "react";
+
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { TbPhotoPlus } from "react-icons/tb";
-interface ImageUploadProps {
+
+declare global {
+  var cloudinary: any;
+}
+
+type Props = {
   onChange: (value: string) => void;
   value: string;
-}
-declare global {
-  let cloudinary: any;
-}
-export default function ImageUpload({ value, onChange }: ImageUploadProps) {
-  const handleUpload = useCallback(
+};
+
+function ImageUpload({ onChange, value }: Props) {
+  const handleCallback = useCallback(
     (result: any) => {
-      onChange(result.info.secure_url);
+      console.log("Upload result:", result); // Debugging to check the result
+      if (result?.info?.secure_url) {
+        onChange(result.info.secure_url);
+      }
     },
     [onChange]
   );
+
   return (
     <CldUploadWidget
-      onUploadAdded={handleUpload}
-      uploadPreset=" "
+      onUploadAdded={handleCallback}
+      uploadPreset="umfgqogw"
       options={{
         maxFiles: 1,
       }}
@@ -29,15 +36,26 @@ export default function ImageUpload({ value, onChange }: ImageUploadProps) {
       {({ open }) => {
         return (
           <div
-            className="relative cursor-pointer hover:opacity-70 transition border-dashed border-2 p-20 border-neutral-300 flex flex-col justify-center items-center gap-4 text-neutral-600 "
-            onClick={() => open?.()}
+            onClick={() => open()}
+            className="relative cursor-pointer hover:opacity-70 transition border-dashed border-2 p-20 border-neutral-300 flex flex-col justify-center items-center gap-4 text-neutral-600"
           >
             <TbPhotoPlus size={50} />
             <div className="font-semibold text-lg">Click to upload</div>
-            {value && <div></div>}
+            {value && (
+              <div className="absolute inset-0 w-full h-full">
+                <Image
+                  alt="Uploaded Image"
+                  src={value}
+                  layout="fill"
+                  objectFit="cover" // Ensures image covers the area
+                />
+              </div>
+            )}
           </div>
         );
       }}
     </CldUploadWidget>
   );
 }
+
+export default ImageUpload;
