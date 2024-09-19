@@ -7,7 +7,7 @@ import { useRentModal } from "@/app/hooks/useRentModal";
 import Heading from "../Heading";
 import CountrySelect from "../inputs/CountrySelect";
 import Counter from "../inputs/Counter";
-import Map from "../Map";
+import ImageUpload from "../inputs/ImageUpload";
 import { categories } from "../navbar/Categories";
 import { useForm, FieldValues } from "react-hook-form";
 import dynamic from "next/dynamic";
