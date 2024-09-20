@@ -36,6 +36,7 @@ export default function RegisterModal() {
     try {
       await axios.post("/api/register", data);
       registerModal.onClose();
+      toast.success("Registered Successfully");
     } catch (error) {
       toast.error("Something Went Wrong");
     } finally {

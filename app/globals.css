@@ -31,5 +31,5 @@
 .leflet-control,
 .leflet-pane,
 .leflet-top {
-  z-index: 0 !important;
+  z-index: -100 !important;
 }

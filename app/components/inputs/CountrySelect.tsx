@@ -21,8 +21,9 @@ function CountrySelect({ value, onChange }: Props) {
   const { getAll } = useCountries();
 
   return (
-    <div>
+    <div className="">
       <Select
+        className="z-[999]"
         placeholder="Anywhere"
         isClearable
         options={getAll()}
@@ -38,8 +39,8 @@ function CountrySelect({ value, onChange }: Props) {
           </div>
         )}
         classNames={{
-          control: () => "p-3 border-2",
-          input: () => "text-lg",
+          control: () => "p-3 border-2 ",
+          input: () => "text-lg ",
           option: () => "text-lg",
         }}
         theme={(theme) => ({
