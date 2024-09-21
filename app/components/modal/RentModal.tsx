@@ -28,7 +28,6 @@ function RentModal({}: Props) {
   const rentModel = useRentModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
-  const [imageSource, setImageSource] = useState("");
 
   const {
     register,
@@ -197,7 +196,10 @@ function RentModal({}: Props) {
           title="Add a photo of your place"
           subtitle="Show guests what your place looks like!"
         />
-        <ImageUpload setImageSource={setImageSource} value={imageSource} />
+        <ImageUpload
+          onChange={(file) => setCustomValue("imageSrc", file)}
+          value={imageSrc ? URL.createObjectURL(imageSrc) : undefined}
+        />
       </div>
     );
   }
