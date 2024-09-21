@@ -9,6 +9,7 @@ import Image from "next/image";
 import HeartButton from "../HeartButton";
 
 import { format } from "date-fns";
+import Button from "../Button";
 interface ListingCardProps {
   data: ListingType;
   reservation?: ReservationType;
@@ -67,9 +68,27 @@ export default function ListingCard({
             fill
           />
           <div className="absolute top-3 right-3 ">
-            <HeartButton listingId={data.id} currentUser={currentUser} />
+            <HeartButton listingId={data.userId} currentUser={currentUser} />
           </div>
         </div>
+        <div className="font-semibold text-lg ">
+          {location?.region}, {location?.label}
+        </div>
+        <div className="font-light text-neutral-500 ">
+          {reservationDate || data.category}
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="font-semibold ">$ {price}</div>
+          {!reservation && <div className="font-light ">Night</div>}
+        </div>
+        {onAction && actionLabel && (
+          <Button
+            disabled={disabled}
+            small
+            label={actionLabel}
+            onClick={handleCancel}
+          />
+        )}
       </div>
     </div>
   );
