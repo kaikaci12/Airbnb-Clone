@@ -2,12 +2,16 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect"; // Import your Mongoose connection
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import Listing from "@/models/Listing";
+
 export async function POST(req: Request) {
-  const currentUser = getCurrentUser();
-  if (!getCurrentUser) {
-    return NextResponse.error();
+  // Get the current user and ensure it's awaited
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    return NextResponse.error(); // You were checking the function instead of the result
   }
-  const body = req.json();
+
+  // Await for the request body to be parsed
+  const body = await req.json();
   const {
     title,
     description,
@@ -19,7 +23,11 @@ export async function POST(req: Request) {
     location,
     price,
   } = body;
+
+  // Connect to the database
   await dbConnect();
+
+  // Create a new listing
   const listing = await Listing.create({
     title,
     imageSrc,
@@ -32,5 +40,7 @@ export async function POST(req: Request) {
     price: parseInt(price, 10),
     userId: currentUser.id,
   });
+
+  // Return the created listing
   return NextResponse.json(listing);
 }

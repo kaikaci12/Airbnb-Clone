@@ -28,6 +28,7 @@ function RentModal({}: Props) {
   const rentModel = useRentModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
+  const [imageSource, setImageSource] = useState("");
 
   const {
     register,
@@ -87,7 +88,7 @@ function RentModal({}: Props) {
     }
 
     setIsLoading(true);
-
+    console.log();
     axios
       .post("/api/listings", data)
       .then(() => {
@@ -196,10 +197,7 @@ function RentModal({}: Props) {
           title="Add a photo of your place"
           subtitle="Show guests what your place looks like!"
         />
-        <ImageUpload
-          onChange={(value) => setCustomValue("imageSrc", value)}
-          value={imageSrc}
-        />
+        <ImageUpload setImageSource={setImageSource} value={imageSource} />
       </div>
     );
   }

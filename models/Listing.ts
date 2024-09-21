@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
+import { InferSchemaType } from "mongoose";
 
 const listingSchema = new Schema({
+  _id: {
+    type: Schema.Types.ObjectId,
+  },
   title: { type: String, required: true },
   description: { type: String, required: true },
   imageSrc: { type: String, required: true },
@@ -20,7 +24,7 @@ listingSchema.virtual("reservations", {
   localField: "_id",
   foreignField: "listingId",
 });
-
+export type ListingType = InferSchemaType<typeof listingSchema>;
 const Listing =
   mongoose.models.Listing || mongoose.model("Listing", listingSchema);
 

@@ -6,7 +6,7 @@ import React, { useCallback } from "react";
 import { TbPhotoPlus } from "react-icons/tb";
 
 declare global {
-  var cloudinary: any;
+  let cloudinary: any;
 }
 
 type Props = {
@@ -18,16 +18,15 @@ function ImageUpload({ onChange, value }: Props) {
   const handleCallback = useCallback(
     (result: any) => {
       console.log("Upload result:", result); // Debugging to check the result
-      if (result?.info?.secure_url) {
-        onChange(result.info.secure_url);
-      }
+
+      onChange(result.info.secure_url);
     },
     [onChange]
   );
 
   return (
     <CldUploadWidget
-      onUploadAdded={handleCallback}
+      onUpload={handleCallback} // Correct prop for handling upload
       uploadPreset="umfgqogw"
       options={{
         maxFiles: 1,
@@ -46,8 +45,8 @@ function ImageUpload({ onChange, value }: Props) {
                 <Image
                   alt="Uploaded Image"
                   src={value}
-                  layout="fill"
-                  objectFit="cover" // Ensures image covers the area
+                  fill // Use fill instead of layout="fill"
+                  style={{ objectFit: "cover" }} // Ensure the image covers the container
                 />
               </div>
             )}
