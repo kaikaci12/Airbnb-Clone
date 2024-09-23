@@ -3,7 +3,11 @@ import { useCallback } from "react";
 import { TbPhotoPlus } from "react-icons/tb";
 import Image from "next/image";
 import toast from "react-hot-toast";
-
+import axios from "axios";
+type Props = {
+  onChange: (value: string) => void;
+  value: string;
+};
 const ImageUpload: React.FC<Props> = ({ onChange, value }) => {
   const handleUpload = useCallback(
     async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,17 +20,16 @@ const ImageUpload: React.FC<Props> = ({ onChange, value }) => {
       const formData = new FormData();
       formData.append("file", file);
 
+      console.log("Uploading file:", file); // Log file details
+
       try {
-        const response = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
+        const response = await axios.post("/api/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         });
 
-        if (!response.ok) {
-          throw new Error("Upload failed");
-        }
-
-        const data = await response.json();
+        const data = response.data;
         onChange(data.url);
         toast.success("Image uploaded successfully");
       } catch (error) {
