@@ -1,45 +1,55 @@
 import { useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+
 import { TbPhotoPlus } from "react-icons/tb";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import Button from "../Button";
-import { IoMdCloseCircleOutline } from "react-icons/io";
-interface Props {
-  onChange: (file: File) => void;
-  value?: string;
-}
 
 const ImageUpload: React.FC<Props> = ({ onChange, value }) => {
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      // Only allow one file
-      const file = acceptedFiles[0];
-      if (file) {
-        // Handle file upload
-        onChange(file);
+  const handleUpload = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (!file) {
+        toast.error("No file selected");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error("Upload failed");
+        }
+
+        const data = await response.json();
+        onChange(data.url);
         toast.success("Image uploaded successfully");
+      } catch (error) {
+        console.error("Upload Error: ", error);
+        toast.error("Upload failed");
       }
     },
     [onChange]
   );
 
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    maxFiles: 1,
-    accept: {
-      "image/*": [".jpeg", ".jpg", ".png"],
-    },
-  });
-
   return (
-    <div
-      {...getRootProps()}
-      className="relative cursor-pointer hover:opacity-70 transition border-dashed border-2 p-20 border-neutral-300 flex flex-col justify-center items-center gap-4 text-neutral-600"
-    >
-      <input {...getInputProps()} />
-      <TbPhotoPlus size={50} />
-      <div className="font-semibold text-lg">Click to upload</div>
+    <div className="relative cursor-pointer hover:opacity-70 transition border-dashed border-2 p-20 border-neutral-300 flex flex-col justify-center items-center gap-4 text-neutral-600">
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleUpload}
+        style={{ display: "none" }}
+        id="file-upload"
+      />
+      <label htmlFor="file-upload" className="flex flex-col items-center">
+        <TbPhotoPlus size={50} />
+        <div className="font-semibold text-lg">Click to upload</div>
+      </label>
       {value && (
         <div className="absolute inset-0 w-full h-full">
           <Image
@@ -48,15 +58,6 @@ const ImageUpload: React.FC<Props> = ({ onChange, value }) => {
             fill
             style={{ objectFit: "cover" }}
           />
-          <div
-            onClick={() => {
-              onChange(null);
-            }}
-            className="absolute right-10  -top-10 flex items-center gap-2"
-          >
-            <Button label="Remove image" small />
-            <IoMdCloseCircleOutline size={25} />
-          </div>
         </div>
       )}
     </div>

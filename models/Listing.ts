@@ -15,7 +15,7 @@ const listingSchema = new Schema({
   bathroomCount: { type: Number, required: true },
   guestCount: { type: Number, required: true },
   locationValue: { type: String, required: true },
-  userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  userId: { type: Schema.Types.ObjectId, ref: "User" },
   price: { type: Number, required: true },
 });
 

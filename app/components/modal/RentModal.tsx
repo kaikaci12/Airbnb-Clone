@@ -64,13 +64,13 @@ function RentModal({}: Props) {
       }),
     [location]
   );
-
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
       shouldValidate: true,
       shouldDirty: true,
       shouldTouch: true,
     });
+    console.log(`${id} updated with value: `, value); // Debug the value
   };
 
   const onBack = () => {
@@ -198,7 +198,7 @@ function RentModal({}: Props) {
         />
         <ImageUpload
           onChange={(file) => setCustomValue("imageSrc", file)}
-          value={imageSrc ? URL.createObjectURL(imageSrc) : undefined}
+          value={imageSrc}
         />
       </div>
     );
