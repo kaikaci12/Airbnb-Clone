@@ -85,9 +85,9 @@ function RentModal({}: Props) {
     if (step !== STEPS.PRICE) {
       return onNext();
     }
-
+    console.log(data);
     setIsLoading(true);
-    console.log();
+
     axios
       .post("/api/listings", data)
       .then(() => {

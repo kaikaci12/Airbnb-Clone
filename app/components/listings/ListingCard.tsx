@@ -1,16 +1,18 @@
 "use client";
+
+import useCountries from "@/app/hooks/useCountries";
+import { format } from "date-fns";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useCallback, useMemo } from "react";
+import Button from "../Button";
+import HeartButton from "../HeartButton";
 import { ListingType } from "@/models/Listing";
 import { ReservationType } from "@/models/Reservation";
 import { UserType } from "@/models/User";
-import { useRouter } from "next/navigation";
-import useCountries from "@/app/hooks/useCountries";
-import Image from "next/image";
-import HeartButton from "../HeartButton";
 
-import { format } from "date-fns";
-import Button from "../Button";
-interface ListingCardProps {
+type Props = {
   data: ListingType;
   reservation?: ReservationType;
   onAction?: (id: string) => void;
@@ -18,68 +20,87 @@ interface ListingCardProps {
   actionLabel?: string;
   actionId?: string;
   currentUser?: UserType | null;
-}
-export default function ListingCard({
+};
+
+function ListingCard({
   data,
   reservation,
   onAction,
-  actionId,
+  disabled,
   actionLabel,
+  actionId = "",
   currentUser,
-}: ListingCardProps) {
+}: Props) {
   const router = useRouter();
   const { getByValue } = useCountries();
+  console.log(data);
   const location = getByValue(data.locationValue);
+
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
-      if (disabled) {
-        return;
-      }
+
+      if (disabled) return;
+
       onAction?.(actionId);
     },
     [onAction, actionId, disabled]
   );
+
   const price = useMemo(() => {
     if (reservation) {
       return reservation.totalPrice;
     }
+
     return data.price;
   }, [reservation, data.price]);
+
   const reservationDate = useMemo(() => {
     if (!reservation) {
       return null;
     }
+
     const start = new Date(reservation.startDate);
     const end = new Date(reservation.endDate);
+
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
+
   return (
-    <div
-      className="col-span-1  cursor-pointer group "
-      onClick={() => router.push(`/listings/${data._id}`)}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.8,
+        delay: 0.5,
+        ease: [0, 0.71, 0.2, 1.01],
+      }}
+      onClick={() => router.push(`/listings/${data.id}`)}
+      className="col-span-1 cursor-pointer group"
     >
       <div className="flex flex-col gap-2 w-full">
-        <div className="aspect-square w-full relative overflow-hidden  rounded-xl ">
+        <div className="aspect-square w-full relative overflow-hidden rounded-xl">
           <Image
-            alt="listings"
-            src={data.imageSrc}
-            className="object-cover h-full w-full group hover:scale-110 transition"
             fill
+            className="object-cover h-full w-full group-hover:scale-110 transition"
+            src={data.imageSrc}
+            alt="listing"
+            width={40}
           />
-          <div className="absolute top-3 right-3 ">
-            <HeartButton listingId={data.userId} currentUser={currentUser} />
+          <div className="absolute top-3 right-3">
+            <HeartButton listingId={data.id} currentUser={currentUser} />
           </div>
         </div>
-        <div className="font-semibold text-lg ">
+        <div className="font-semibold text-lg">
           {location?.region}, {location?.label}
         </div>
-        <div className="font-light text-neutral-500 ">
+        <div className="font-light text-neutral-500">
           {reservationDate || data.category}
         </div>
-        <div className="flex items-center gap-1">
-          <div className="font-semibold ">$ {price}</div>
-          {!reservation && <div className="font-light ">Night</div>}
+        <div className="flex flex-row items-center gap-">
+          <div className="flex gap-1 font-semibold">
+            ${price} {!reservation && <div className="font-light"> Night</div>}
+          </div>
         </div>
         {onAction && actionLabel && (
           <Button
@@ -90,6 +111,8 @@ export default function ListingCard({
           />
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
+
+export default ListingCard;

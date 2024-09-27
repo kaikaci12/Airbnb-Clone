@@ -10,6 +10,12 @@ export async function POST(req) {
     return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
   }
 
+  // Check for valid image MIME types (e.g., jpeg, png)
+  const validImageTypes = ["image/jpeg", "image/jpg", "image/png"];
+  if (!validImageTypes.includes(file.type)) {
+    return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
+  }
+
   const storageRef = ref(storage, `images/${file.name}`);
 
   try {
@@ -17,7 +23,7 @@ export async function POST(req) {
     await uploadBytes(storageRef, file);
     const downloadURL = await getDownloadURL(storageRef);
     return NextResponse.json({ url: downloadURL }, { status: 200 });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Firebase Upload Error: ", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

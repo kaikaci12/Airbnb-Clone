@@ -29,9 +29,9 @@ const ImageUpload: React.FC<Props> = ({ onChange, value }) => {
         });
         onChange(response.data.url);
         toast.success("Image uploaded successfully");
-      } catch (error) {
+      } catch (error: any) {
         console.error("Upload Error: ", error);
-        toast.error("Upload failed");
+        toast.error(error);
       }
     },
     [onChange]
@@ -57,8 +57,11 @@ const ImageUpload: React.FC<Props> = ({ onChange, value }) => {
         style={{ display: "none" }}
         id="file-upload"
       />
-      <label htmlFor="file-upload" className="flex flex-col items-center">
-        <TbPhotoPlus size={50} />
+      <label
+        htmlFor="file-upload"
+        className="flex flex-col items-center hover:cursor-pointer"
+      >
+        <TbPhotoPlus size={50} className="hover:cursor-pointer" />
         <div className="font-semibold text-lg">Click to upload</div>
       </label>
       {value && (

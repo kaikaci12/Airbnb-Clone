@@ -2,7 +2,7 @@ import { storage } from "@/firebase/firebase"; // Adjust the import path
 import { ref, deleteObject } from "firebase/storage";
 import { NextResponse } from "next/server";
 
-export async function DELETE(req) {
+export async function DELETE(req: Request) {
   const { searchParams } = new URL(req.url);
   const url = searchParams.get("url");
 
@@ -23,7 +23,6 @@ export async function DELETE(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Firebase Remove Error: ", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
