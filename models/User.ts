@@ -2,6 +2,7 @@ import mongoose, { Schema, InferSchemaType } from "mongoose";
 
 const userSchema = new Schema(
   {
+    _id: { type: String, required: true },
     name: { type: String, required: false },
     email: { type: String, unique: true, required: false },
     emailVerified: { type: Date, required: false },

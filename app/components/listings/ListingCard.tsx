@@ -1,5 +1,4 @@
 "use client";
-
 import useCountries from "@/app/hooks/useCountries";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
@@ -8,8 +7,10 @@ import { useRouter } from "next/navigation";
 import React, { useCallback, useMemo } from "react";
 import Button from "../Button";
 import HeartButton from "../HeartButton";
-import { ListingType } from "@/models/Listing";
+
 import { ReservationType } from "@/models/Reservation";
+import { SafeListing, SafeUser } from "@/app/types";
+import { ListingType } from "@/models/Listing";
 import { UserType } from "@/models/User";
 
 type Props = {
@@ -19,7 +20,7 @@ type Props = {
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
-  currentUser?: UserType | null;
+  currentUser?: UserType;
 };
 
 function ListingCard({
@@ -31,7 +32,6 @@ function ListingCard({
   actionId = "",
   currentUser,
 }: Props) {
-  const router = useRouter();
   const { getByValue } = useCountries();
   console.log(data);
   const location = getByValue(data.locationValue);
@@ -65,7 +65,7 @@ function ListingCard({
 
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
-
+  const router = useRouter();
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
@@ -75,7 +75,7 @@ function ListingCard({
         delay: 0.5,
         ease: [0, 0.71, 0.2, 1.01],
       }}
-      onClick={() => router.push(`/listings/${data.id}`)}
+      onClick={() => router.push(`/listings/${data._id}`)}
       className="col-span-1 cursor-pointer group"
     >
       <div className="flex flex-col gap-2 w-full">
@@ -85,10 +85,9 @@ function ListingCard({
             className="object-cover h-full w-full group-hover:scale-110 transition"
             src={data.imageSrc}
             alt="listing"
-            width={40}
           />
           <div className="absolute top-3 right-3">
-            <HeartButton listingId={data.id} currentUser={currentUser} />
+            <HeartButton listingId={data._id} currentUser={currentUser} />
           </div>
         </div>
         <div className="font-semibold text-lg">

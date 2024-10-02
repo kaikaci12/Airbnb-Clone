@@ -8,7 +8,7 @@ import ToasterProvider from "./providers/ToasterProvider";
 import LoginModal from "./components/modal/LoginModal";
 import RentModal from "./components/modal/RentModal";
 import getCurrentUser from "./actions/getCurrentUser";
-import Loading from "./page/loading";
+
 export const metadata: Metadata = {
   title: "Airbnb",
   description: "",

@@ -1,56 +1,38 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import dbConnect from "@/lib/dbConnect";
-import User, { UserType } from "@/models/User";
+import User from "@/models/User";
+import { UserType } from "@/models/User";
 
-// Helper function to get the session
 export async function getSession() {
   return await getServerSession(authOptions);
 }
 
-export default async function getCurrentUser() {
+export default async function getCurrentUser(): Promise<UserType | null> {
   try {
     await dbConnect();
     const session = await getSession();
     if (!session?.user?.email) {
-      return null;
+      return null; // Handle absence of session properly
     }
 
-    const currentUser: UserType = await User.findOne({
+    const currentUser = await User.findOne({
       email: session.user.email,
     }).lean();
 
     if (!currentUser) {
-      return null;
+      return null; // Handle absence of user properly
     }
 
-    // Ensure fields exist before using `.map()`
-    const serializedUser = {
+    return {
       ...currentUser,
-
-      _id: currentUser._id.toString(), // Ensure ObjectId is converted
-      favoriteIds: currentUser.favoriteIds
-        ? currentUser.favoriteIds.map((id) => id.toString())
-        : [], // Convert all ObjectIds to strings
-      accounts: currentUser.accounts
-        ? currentUser.accounts.map((id) => id.toString())
-        : [], // Same for accounts
-      listings: currentUser.listings
-        ? currentUser.listings.map((id) => id.toString())
-        : [], // Same for listings
-      reservations: currentUser.reservations
-        ? currentUser.reservations.map((id) => id.toString())
-        : [], // Same for reservations
+      _id: currentUser._id.toString(), // Convert ObjectId to string
       createdAt: currentUser.createdAt.toISOString(), // Convert Date to ISO string
-      updatedAt: currentUser.updatedAt.toISOString(), // Same for updatedAt
-      emailVerified: currentUser.emailVerified
-        ? currentUser.emailVerified.toISOString()
-        : null, // Handle nullable dates
-    };
-
-    return serializedUser;
+      updatedAt: currentUser.updatedAt.toISOString(), // Convert Date to ISO string
+      emailVerified: currentUser.emailVerified?.toISOString() || null, // Optional
+    } as UserType; // Type assertion here
   } catch (error) {
     console.error("Error fetching current user:", error);
-    return null;
+    return null; // Ensure you return null on error
   }
 }

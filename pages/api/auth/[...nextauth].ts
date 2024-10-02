@@ -66,32 +66,25 @@ export const authOptions: AuthOptions = {
       // Create or update the account in the database
       await Account.findOneAndUpdate(
         {
-          provider: account.provider,
-          providerAccountId: account.providerAccountId,
+          provider: account?.provider,
+          providerAccountId: account?.providerAccountId,
         },
         {
           userId: existingUser._id,
-          provider: account.provider,
-          providerAccountId: account.providerAccountId,
-          access_token: account.access_token,
-          refresh_token: account.refresh_token,
-          expires_at: account.expires_at,
-          token_type: account.token_type,
-          scope: account.scope,
-          id_token: account.id_token,
-          session_state: account.session_state,
+          provider: account?.provider,
+          providerAccountId: account?.providerAccountId,
+          access_token: account?.access_token,
+          refresh_token: account?.refresh_token,
+          expires_at: account?.expires_at,
+          token_type: account?.token_type,
+          scope: account?.scope,
+          id_token: account?.id_token,
+          session_state: account?.session_state,
         },
         { upsert: true, new: true }
       );
 
       return true; // Continue with sign in
-    },
-    async session({ session, token }) {
-      // Append user ID to the session
-      if (token?.sub) {
-        session.user.id = token.sub;
-      }
-      return session;
     },
     async jwt({ token, user }) {
       // Attach user ID to the JWT token
@@ -99,6 +92,13 @@ export const authOptions: AuthOptions = {
         token.sub = user.id;
       }
       return token;
+    },
+    async session({ session, token }) {
+      // Append user ID to the session
+      if (token?.sub) {
+        session.user.id = token.sub;
+      }
+      return session;
     },
   },
   pages: {

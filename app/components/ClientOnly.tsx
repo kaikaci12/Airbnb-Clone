@@ -1,15 +1,32 @@
 "use client";
-import { useEffect, useState } from "react";
-interface ClientOnlyProps {
+
+import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+
+type Props = {
   children: React.ReactNode;
-}
-export default function ClientOnly({ children }: ClientOnlyProps) {
+};
+
+function ClientOnly({ children }: Props) {
   const [hasMounted, setHasMounted] = useState(false);
+
   useEffect(() => {
     setHasMounted(true);
   }, []);
+
   if (!hasMounted) {
     return null;
   }
-  return <>{children}</>;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+    >
+      {children}
+    </motion.div>
+  );
 }
+
+export default ClientOnly;

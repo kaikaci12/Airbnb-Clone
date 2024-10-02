@@ -3,6 +3,10 @@ const { Schema } = mongoose;
 import { InferSchemaType } from "mongoose";
 
 const listingSchema = new Schema({
+  _id: {
+    type: String,
+    required: true,
+  },
   title: { type: String, required: true },
   description: { type: String, required: true },
   imageSrc: { type: String, required: true },
