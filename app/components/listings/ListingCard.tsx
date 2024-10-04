@@ -9,18 +9,18 @@ import Button from "../Button";
 import HeartButton from "../HeartButton";
 
 import { ReservationType } from "@/models/Reservation";
-import { SafeListing, SafeUser } from "@/app/types";
-import { ListingType } from "@/models/Listing";
+
 import { UserType } from "@/models/User";
+import { SafeListing, SafeUser } from "@/app/types";
 
 type Props = {
-  data: ListingType;
+  data: SafeListing;
   reservation?: ReservationType;
   onAction?: (id: string) => void;
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
-  currentUser?: UserType;
+  currentUser?: SafeUser;
 };
 
 function ListingCard({

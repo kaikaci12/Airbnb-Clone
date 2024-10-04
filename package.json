@@ -39,6 +39,7 @@
     "react-select": "^5.8.0",
     "react-world-flags": "^1.6.0",
     "select": "^1.1.2",
+    "uuid": "^10.0.0",
     "world-countries": "^5.0.0",
     "zustand": "^4.5.5"
   },

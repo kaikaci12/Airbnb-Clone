@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect"; // Import your Mongoose connection
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import Listing from "@/models/Listing";
+import User from "@/models/User"; // Import your User model
+
 export async function POST(req: Request) {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
@@ -20,9 +22,11 @@ export async function POST(req: Request) {
     location,
     price,
   } = body;
+
   await dbConnect();
 
   try {
+    // Create the listing
     const listing = await Listing.create({
       title,
       imageSrc,
@@ -33,8 +37,15 @@ export async function POST(req: Request) {
       guestCount,
       locationValue: location.value,
       price: parseInt(price, 10),
-      userId: currentUser.id,
+      userId: currentUser._id,
     });
+
+    // Update the user's listings array
+    await User.findByIdAndUpdate(
+      currentUser._id,
+      { $push: { listings: listing } }, // Add the listing ID to the listings array
+      { new: true } // Return the updated user document
+    );
 
     return NextResponse.json(listing);
   } catch (error) {

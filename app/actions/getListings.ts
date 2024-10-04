@@ -1,18 +1,18 @@
 import dbConnect from "@/lib/dbConnect";
 import Listing from "@/models/Listing";
-import { ListingType } from "@/models/Listing";
 
-export default async function getListings(): Promise<ListingType[]> {
+export default async function getListings() {
   try {
     await dbConnect();
     const listings = await Listing.find().sort({ createdAt: -1 }).lean();
 
     const safeListings = listings.map((list) => ({
       ...list,
-      _id: list._id.toString(), // Ensure _id is a string
-      createdAt: list.createdAt.toISOString(), // Convert to ISO string
-    })) as (ListingType & { _id: string })[]; // Type assertion here
-
+      userId: list.userId || list.userId.toString(),
+      price: list.price,
+      id: list._id?.toString(),
+      createdAt: list.createdAt.toISOString(), // Convert Date to an ISO string
+    }));
     return safeListings;
   } catch (error) {
     console.log(error);

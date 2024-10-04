@@ -1,12 +1,24 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
-import { InferSchemaType } from "mongoose";
+import { Types } from "mongoose";
+
+// Interface for the Listing Schema
+export interface ListingType {
+  _id: string; // String-based _id
+  title: string;
+  description: string;
+  imageSrc: string;
+  createdAt?: Date; // Optional since default is Date.now
+  category: string;
+  roomCount: number;
+  bathroomCount: number;
+  guestCount: number;
+  locationValue: string;
+  userId: Types.ObjectId; // Reference to User model
+  price: number;
+}
 
 const listingSchema = new Schema({
-  _id: {
-    type: String,
-    required: true,
-  },
   title: { type: String, required: true },
   description: { type: String, required: true },
   imageSrc: { type: String, required: true },
@@ -16,7 +28,7 @@ const listingSchema = new Schema({
   bathroomCount: { type: Number, required: true },
   guestCount: { type: Number, required: true },
   locationValue: { type: String, required: true },
-  userId: { type: Schema.Types.ObjectId, ref: "User" },
+  userId: { type: String, ref: "User" },
   price: { type: Number, required: true },
 });
 
@@ -25,7 +37,7 @@ listingSchema.virtual("reservations", {
   localField: "_id",
   foreignField: "listingId",
 });
-export type ListingType = InferSchemaType<typeof listingSchema>;
+
 const Listing =
   mongoose.models.Listing || mongoose.model("Listing", listingSchema);
 
