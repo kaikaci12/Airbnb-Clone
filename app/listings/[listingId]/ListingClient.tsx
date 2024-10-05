@@ -1,13 +1,14 @@
 "use client";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import Reservation, { ReservationType } from "@/models/Reservation";
-import { eachDayOfInterval } from "date-fns";
+import { eachDayOfInterval, differenceInCalendarDays } from "date-fns";
 import { SafeListing, SafeUser } from "@/app/types";
 import { categories } from "@/app/components/navbar/Categories";
 import Container from "@/app/components/Container";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingHead from "@/app/components/listings/ListingHead";
 import ListingReservation from "@/app/components/listings/ListingReservation";
+
 import { useLoginModal } from "@/app/hooks/useLoginModal";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -67,7 +68,20 @@ export default function ListingClient({
         setIsLoading(false);
       });
   }, [totalPrice, currentUser, router, loginModal, listing?._id, dateRange]);
+  useEffect(() => {
+    if (dateRange.startDate && dateRange.endDate) {
+      const dayCount = differenceInCalendarDays(
+        dateRange.endDate,
+        dateRange.startDate
+      );
 
+      if (dayCount && listing.price) {
+        setTotalPrice(dayCount * listing.price);
+      } else {
+        setTotalPrice(listing.price);
+      }
+    }
+  }, [dateRange, listing.price]);
   const category = useMemo(() => {
     return categories.find((item) => item.label == listing.category);
   }, [listing.category]);
@@ -92,7 +106,7 @@ export default function ListingClient({
               bathroomCount={listing.bathroomCount}
               locationValue={listing.locationValue}
             />
-            {/* <div className="order-first mb-10 md:order-last md:col-span-3">
+            <div className="order-first mb-10 md:order-last md:col-span-3">
               <ListingReservation
                 price={listing.price}
                 totalPrice={totalPrice}
@@ -102,7 +116,7 @@ export default function ListingClient({
                 disabled={isLoading}
                 disabledDates={disableDates}
               />
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
