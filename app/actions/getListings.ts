@@ -8,9 +8,6 @@ export default async function getListings() {
 
     const safeListings = listings.map((list) => ({
       ...list,
-      userId: list.userId || list.userId.toString(),
-      price: list.price,
-      id: list._id?.toString(),
       createdAt: list.createdAt.toISOString(), // Convert Date to an ISO string
     }));
     return safeListings;

@@ -22,7 +22,7 @@ export default async function getListingById(params: IParams) {
     if (!listing) {
       return null; // Return null if no listing found
     }
-
+    console.log(listing);
     // Safely return the listing details
     return {
       id: listing._id.toString(),

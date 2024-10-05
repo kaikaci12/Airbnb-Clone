@@ -17,14 +17,14 @@ export default async function getCurrentUser() {
 
     const currentUser = await User.findOne({
       email: session.user.email,
-    });
+    }).lean();
 
     if (!currentUser) {
       return null; // Handle absence of user properly
     }
     const safeCurrentUser = {
       ...currentUser,
-      id: currentUser._id.toString(),
+      _id: currentUser._id.toString(),
       createdAt: currentUser.createdAt.toISOString(),
       updatedAt: currentUser.updatedAt.toISOString(),
       emailVerified: currentUser.emailVerified?.toISOString(),
