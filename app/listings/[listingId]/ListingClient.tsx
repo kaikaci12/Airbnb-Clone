@@ -2,7 +2,7 @@
 import React, { useCallback, useMemo, useState, useEffect } from "react";
 import Reservation, { ReservationType } from "@/models/Reservation";
 import { eachDayOfInterval, differenceInCalendarDays } from "date-fns";
-import { SafeListing, SafeUser } from "@/app/types";
+import { SafeListing, SafeUser, SafeReservation } from "@/app/types";
 import { categories } from "@/app/components/navbar/Categories";
 import Container from "@/app/components/Container";
 import ListingInfo from "@/app/components/listings/ListingInfo";
@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Range } from "react-date-range";
+
 interface ListingClientProps {
   reservation: ReservationType[];
   listing: SafeListing & {
@@ -27,22 +28,18 @@ const initialDateRange = {
   key: "selection",
 };
 
-type Props = {
-  reservations?: SafeReservation[];
-  listing: safeListing & {
-    user: SafeUser;
-  };
-  currentUser?: SafeUser | null;
-};
-
-function ListingClient({ reservations = [], listing, currentUser }: Props) {
+function ListingClient({
+  reservations = [],
+  listing,
+  currentUser,
+}: ListingClientProps) {
   const router = useRouter();
   const loginModal = useLoginModal();
 
   const disableDates = useMemo(() => {
     let dates: Date[] = [];
 
-    reservations.forEach((reservation) => {
+    reservations.forEach((reservation: SafeReservation) => {
       const range = eachDayOfInterval({
         start: new Date(reservation.startDate),
         end: new Date(reservation.endDate),

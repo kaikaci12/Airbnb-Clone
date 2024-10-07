@@ -38,7 +38,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Error processing reservation:", error);
     return NextResponse.json(
-      { message: "Internal Server Error", error: error.message },
+      { message: "Internal Server Error", error: error },
       { status: 500 }
     );
   }

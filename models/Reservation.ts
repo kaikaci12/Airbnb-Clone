@@ -10,9 +10,17 @@ const reservationSchema = new Schema({
   totalPrice: { type: Number, required: true },
   createdAt: { type: Date, default: Date.now },
 });
-export type ReservationType = InferSchemaType<typeof reservationSchema>;
+
+reservationSchema.virtual("listing", {
+  ref: "Listing", // Model to populate
+  localField: "listingId", // The local field that contains the ObjectId for Listing
+  foreignField: "_id", // The corresponding field in the Listing model
+});
+reservationSchema.set("toJSON", { virtuals: true });
+
 const Reservation =
   mongoose.models.Reservation ||
   mongoose.model("Reservation", reservationSchema);
 
+export type ReservationType = InferSchemaType<typeof reservationSchema>;
 export default Reservation;

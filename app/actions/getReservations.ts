@@ -21,8 +21,9 @@ export default async function getReservations(params: IParams) {
     }
     await dbConnect();
     const reservation = await Reservation.find(query)
-      .populate("listing")
+      .populate("listingId")
       .sort({ createdAt: -1 });
+    console.log(reservation);
     const safeReservations = reservation.map((reservation) => ({
       ...reservation,
       createdAt: reservation.createdAt.toISOString(),
