@@ -29,6 +29,7 @@ const listingSchema = new Schema({
   guestCount: { type: Number, required: true },
   locationValue: { type: String, required: true },
   userId: { type: String, ref: "User" },
+
   price: { type: Number, required: true },
 });
 
@@ -37,6 +38,8 @@ listingSchema.virtual("reservations", {
   localField: "_id",
   foreignField: "listingId",
 });
+listingSchema.set("toJSON", { virtuals: true });
+listingSchema.set("toObject", { virtuals: true });
 
 const Listing =
   mongoose.models.Listing || mongoose.model("Listing", listingSchema);

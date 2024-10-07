@@ -26,49 +26,66 @@ const initialDateRange = {
   endDate: new Date(),
   key: "selection",
 };
-export default function ListingClient({
-  reservation = [],
-  listing,
-  currentUser,
-}: ListingClientProps) {
-  const loginModal = useLoginModal();
+
+type Props = {
+  reservations?: SafeReservation[];
+  listing: safeListing & {
+    user: SafeUser;
+  };
+  currentUser?: SafeUser | null;
+};
+
+function ListingClient({ reservations = [], listing, currentUser }: Props) {
   const router = useRouter();
-  const disabledDates = useMemo(() => {
+  const loginModal = useLoginModal();
+
+  const disableDates = useMemo(() => {
     let dates: Date[] = [];
-    reservation.forEach((reservation) => {
+
+    reservations.forEach((reservation) => {
       const range = eachDayOfInterval({
         start: new Date(reservation.startDate),
         end: new Date(reservation.endDate),
       });
+
       dates = [...dates, ...range];
     });
+
     return dates;
-  }, [reservation]);
+  }, [reservations]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
-  const onCreateReservation = useCallback(async () => {
+
+  const onCreateReservation = useCallback(() => {
     if (!currentUser) {
-      loginModal.onOpen();
-      setIsLoading(true);
+      return loginModal.onOpen();
     }
+
+    setIsLoading(true);
+
     axios
       .post("/api/reservations", {
         totalPrice,
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
-        listingId: listing?._id,
+        listingId: listing?.id,
       })
-      .then(() => {
+      .then((data) => {
         toast.success("Listing Reserved!");
         setDateRange(initialDateRange);
         router.refresh();
+        console.log("Reservation Posted", data);
       })
       .catch(() => {
-        toast.error("Something went wrong");
+        toast.error("Something Went Wrong");
+      })
+      .finally(() => {
         setIsLoading(false);
       });
-  }, [totalPrice, currentUser, router, loginModal, listing?._id, dateRange]);
+  }, [totalPrice, dateRange, listing?.id, router, currentUser, loginModal]);
+
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
       const dayCount = differenceInCalendarDays(
@@ -83,9 +100,11 @@ export default function ListingClient({
       }
     }
   }, [dateRange, listing.price]);
+
   const category = useMemo(() => {
-    return categories.find((item) => item.label == listing.category);
+    return categories.find((item) => item.label === listing.category);
   }, [listing.category]);
+
   return (
     <Container>
       <div className="max-w-screen-lg mx-auto">
@@ -94,7 +113,7 @@ export default function ListingClient({
             title={listing.title}
             imageSrc={listing.imageSrc}
             locationValue={listing.locationValue}
-            id={listing._id}
+            id={listing.id}
             currentUser={currentUser}
           />
           <div className="grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-6">
@@ -115,7 +134,7 @@ export default function ListingClient({
                 dateRange={dateRange}
                 onSubmit={onCreateReservation}
                 disabled={isLoading}
-                disabledDates={disabledDates}
+                disabledDates={disableDates}
               />
             </div>
           </div>
@@ -124,3 +143,5 @@ export default function ListingClient({
     </Container>
   );
 }
+
+export default ListingClient;
