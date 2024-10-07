@@ -13,6 +13,7 @@ import { useLoginModal } from "@/app/hooks/useLoginModal";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Range } from "react-date-range";
 interface ListingClientProps {
   reservation: ReservationType[];
   listing: SafeListing & {
@@ -45,7 +46,7 @@ export default function ListingClient({
   }, [reservation]);
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
-  const [dateRange, setDateRange] = useState(initialDateRange);
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
   const onCreateReservation = useCallback(async () => {
     if (!currentUser) {
       loginModal.onOpen();
@@ -114,7 +115,7 @@ export default function ListingClient({
                 dateRange={dateRange}
                 onSubmit={onCreateReservation}
                 disabled={isLoading}
-                disabledDates={disableDates}
+                disabledDates={disabledDates}
               />
             </div>
           </div>
