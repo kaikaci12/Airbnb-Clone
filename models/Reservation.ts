@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { Types } from "mongoose";
 const { Schema } = mongoose;
 import { InferSchemaType } from "mongoose";
 const reservationSchema = new Schema({
@@ -21,6 +21,13 @@ reservationSchema.set("toJSON", { virtuals: true });
 const Reservation =
   mongoose.models.Reservation ||
   mongoose.model("Reservation", reservationSchema);
-
-export type ReservationType = InferSchemaType<typeof reservationSchema>;
+export interface ReservationType {
+  _id: string; // Auto-generated ID by MongoDB
+  userId: Types.ObjectId; // Reference to the User model
+  listingId: Types.ObjectId; // Reference to the Listing model
+  startDate: Date; // The start date of the reservation
+  endDate: Date; // The end date of the reservation
+  totalPrice: number; // Total price for the reservation
+  createdAt?: Date; // Date when the reservation was created (optional, defaults to now)
+}
 export default Reservation;

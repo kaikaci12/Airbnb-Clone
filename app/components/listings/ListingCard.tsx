@@ -8,14 +8,11 @@ import React, { useCallback, useMemo } from "react";
 import Button from "../Button";
 import HeartButton from "../HeartButton";
 
-import { ReservationType } from "@/models/Reservation";
-
-import { UserType } from "@/models/User";
-import { SafeListing, SafeUser } from "@/app/types";
+import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
 
 type Props = {
   data: SafeListing;
-  reservation?: ReservationType;
+  reservation?: SafeReservation;
   onAction?: (id: string) => void;
   disabled?: boolean;
   actionLabel?: string;

@@ -1,4 +1,3 @@
-import User from "@/models/User";
 import Listing from "@/models/Listing";
 import Reservation from "@/models/Reservation";
 import getCurrentUser from "@/app/actions/getCurrentUser";

@@ -22,20 +22,33 @@ export default async function getReservations(params: IParams) {
     await dbConnect();
     const reservation = await Reservation.find(query)
       .populate("listingId")
-      .sort({ createdAt: -1 });
-    console.log(reservation);
-    const safeReservations = reservation.map((reservation) => ({
+      .sort({ createdAt: -1 })
+      .lean();
+
+    await dbConnect();
+    const reservations = await Reservation.find(query)
+      .sort({ createdAt: -1 })
+      .populate("listingId")
+      .lean(); // Convert Mongoose documents to plain objects
+
+    const safeReservations = reservations.map((reservation) => ({
       ...reservation,
+      _id: reservation._id.toString(), // Convert ObjectId to string
+      userId: reservation.userId.toString(), // Convert ObjectId to string
+      listingId: reservation.listingId
+        ? {
+            ...reservation.listingId,
+            _id: reservation.listingId._id.toString(), // Convert ObjectId to string
+            createdAt: reservation.listingId.createdAt.toISOString(),
+          }
+        : null,
       createdAt: reservation.createdAt.toISOString(),
       startDate: reservation.startDate.toISOString(),
       endDate: reservation.endDate.toISOString(),
-      listing: {
-        ...reservation.listing,
-        createdAt: reservation.listing.createdAt.toISOString(),
-      },
     }));
+    console.log(reservation);
     return safeReservations;
   } catch (error) {
-    throw new Error(error);
+    console.log(error);
   }
 }

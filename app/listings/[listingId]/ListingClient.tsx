@@ -16,7 +16,7 @@ import toast from "react-hot-toast";
 import { Range } from "react-date-range";
 
 interface ListingClientProps {
-  reservation: ReservationType[];
+  reservations: SafeReservation[];
   listing: SafeListing & {
     user: SafeUser;
   };
@@ -72,7 +72,7 @@ function ListingClient({
       .then((data) => {
         toast.success("Listing Reserved!");
         setDateRange(initialDateRange);
-        router.refresh();
+        router.push("/trips");
         console.log("Reservation Posted", data);
       })
       .catch(() => {
