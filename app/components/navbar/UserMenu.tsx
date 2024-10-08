@@ -37,9 +37,7 @@ export default function UserMenu({ currentUser }: UserMenuProps) {
           Airbnb Your Home
         </div>
         <div
-          onClick={() => {
-            setIsOpen((prev) => !prev);
-          }}
+          onClick={toggleOpen}
           className="p-4 md:py-1 md:px-4 border-[1px] border-neutral-200 flex flex-row items-center  gap-3 rounded-full  cursor-pointer hover:shadow-md transition"
         >
           <AiOutlineMenu />
@@ -50,7 +48,7 @@ export default function UserMenu({ currentUser }: UserMenuProps) {
       </div>
       {isOpen && (
         <div className="absolute rounded-xl shadow-md w-[15vw] bg-white overflow-hidden top-12 right-0 text-sm">
-          <div className="flex flex-col cursor-pointer">
+          <div className="flex flex-col cursor-pointer z-10">
             {currentUser ? (
               <>
                 <MenuItem
@@ -58,7 +56,10 @@ export default function UserMenu({ currentUser }: UserMenuProps) {
                   label="My trips"
                 />
                 <MenuItem onClick={() => {}} label="My favorites" />
-                <MenuItem onClick={() => {}} label="My reservations" />
+                <MenuItem
+                  onClick={() => router.push("/reservations")}
+                  label="My reservations"
+                />
                 <MenuItem onClick={() => {}} label="My properties" />
                 <MenuItem onClick={rentModal.onOpen} label="Airbnb my Home" />
                 <hr />
