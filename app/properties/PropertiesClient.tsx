@@ -40,13 +40,13 @@ function PropertiesClient({ listings, currentUser }: PropertiesClientProps) {
     <Container>
       <Heading title="Properties" subtitle="List of your properties" />
       <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
-        {listings.map((listing: any) => (
+        {listings.map((listing: SafeListing) => (
           <ListingCard
-            key={listing.id}
+            key={listing._id}
             data={listing}
-            actionId={listing.id}
+            actionId={listing._id}
             onAction={onDelete}
-            disabled={deletingId === listing.id}
+            disabled={deletingId === listing._id}
             actionLabel="Delete property"
             currentUser={currentUser}
           />
