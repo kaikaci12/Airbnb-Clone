@@ -119,6 +119,20 @@ const SearchModal = () => {
       <Map center={location?.latlng} />
     </div>
   );
+  if (step === STEPS.DATE) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="When do you plan to go?"
+          subtitle="Make sure everyone is free!"
+        />
+        <Calendar
+          onChange={(value) => setDateRange(value.selection)}
+          value={dateRange}
+        />
+      </div>
+    );
+  }
   return (
     <Modal
       isOpen={searchModal.isOpen}
