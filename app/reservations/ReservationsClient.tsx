@@ -5,6 +5,8 @@ import Heading from "../components/Heading";
 import ListingCard from "../components/listings/ListingCard";
 import toast from "react-hot-toast";
 import { SafeReservation, SafeUser } from "../types";
+import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 type Props = {
   reservations: SafeReservation[];
@@ -39,12 +41,16 @@ function ReservationsClient({ reservations, currentUser }: Props) {
         {reservations.map((reservation) => (
           <ListingCard
             key={reservation._id}
-            data={reservation.listing}
+            data={reservation.listingId}
             reservation={reservation}
             actionId={reservation._id}
             onAction={onCancel}
             disabled={deletingId === reservation._id}
-            actionLabel="Cancel reservation"
+            actionLabel={
+              reservation.listingId.userId == currentUser?._id
+                ? "Cancel guest reservation"
+                : "Cancel Reservation"
+            }
             currentUser={currentUser}
           />
         ))}
