@@ -3,7 +3,8 @@ import ClientOnly from "../components/ClientOnly";
 import getCurrentUser from "../actions/getCurrentUser";
 import React from "react";
 import FavoritesClient from "./FavoritesClient";
-const FavoritePage = async (props: Props) => {
+import getFavoriteListings from "../actions/getFavoriteListings";
+const FavoritePage = async () => {
   const currentUser = await getCurrentUser();
   const listings = await getFavoriteListings();
 
