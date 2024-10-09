@@ -1,10 +1,18 @@
 import dbConnect from "@/lib/dbConnect";
 import Listing from "@/models/Listing";
-
-export default async function getListings() {
+export interface IListingParams {
+  userId?: string;
+}
+export default async function getListings(params: IListingParams) {
   try {
+    const { userId } = params;
+    let query: any = {};
+    if (userId) {
+      query.userId = userId;
+    }
+
     await dbConnect();
-    const listings = await Listing.find().sort({ createdAt: -1 }).lean();
+    const listings = await Listing.find(query).sort({ createdAt: -1 }).lean();
 
     const safeListings = listings.map((list) => ({
       ...list,
