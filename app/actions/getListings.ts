@@ -1,5 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import Listing from "@/models/Listing";
+
 export interface IListingParams {
   userId?: string;
   guestCount?: number;
@@ -10,6 +11,7 @@ export interface IListingParams {
   locationValue?: string;
   category?: string;
 }
+
 export default async function getListings(params: IListingParams) {
   try {
     const {
@@ -22,29 +24,32 @@ export default async function getListings(params: IListingParams) {
       endDate,
       category,
     } = params;
+
     let query: any = {};
+
     if (userId) {
       query.userId = userId;
     }
+
     if (category) {
       query.category = category;
     }
 
     if (roomCount) {
       query.roomCount = {
-        gte: +roomCount,
+        $gte: +roomCount,
       };
     }
 
     if (guestCount) {
       query.guestCount = {
-        gte: +guestCount,
+        $gte: +guestCount,
       };
     }
 
     if (bathroomCount) {
       query.bathroomCount = {
-        gte: +bathroomCount,
+        $gte: +bathroomCount,
       };
     }
 
@@ -53,18 +58,12 @@ export default async function getListings(params: IListingParams) {
     }
 
     if (startDate && endDate) {
-      query.NOT = {
-        reservations: {
-          some: {
-            OR: [
-              {
-                endDate: { gte: startDate },
-                startDate: { lte: startDate },
-              },
-              {
-                startDate: { lte: endDate },
-                endDate: { gte: endDate },
-              },
+      query.reservations = {
+        $not: {
+          $elemMatch: {
+            $or: [
+              { endDate: { $gte: startDate }, startDate: { $lte: startDate } },
+              { startDate: { $lte: endDate }, endDate: { $gte: endDate } },
             ],
           },
         },
@@ -76,11 +75,12 @@ export default async function getListings(params: IListingParams) {
 
     const safeListings = listings.map((list) => ({
       ...list,
-      createdAt: list.createdAt.toISOString(), // Convert Date to an ISO string
+      createdAt: list.createdAt.toISOString(),
     }));
+
     return safeListings;
   } catch (error) {
     console.log(error);
-    return []; // Return an empty array in case of error
+    return [];
   }
 }
