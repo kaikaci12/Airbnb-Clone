@@ -23,8 +23,8 @@ export async function POST(req) {
     await uploadBytes(storageRef, file);
     const downloadURL = await getDownloadURL(storageRef);
     return NextResponse.json({ url: downloadURL }, { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Firebase Upload Error: ", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }

@@ -10,7 +10,8 @@ import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import "leaflet/dist/leaflet.css";
 import Flag from "react-world-flags";
 
-// @ts-ignore
+/* @ts-expect-error : atrribute type error */
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconUrl: markerIcon.src,

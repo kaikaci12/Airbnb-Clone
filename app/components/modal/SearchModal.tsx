@@ -37,15 +37,17 @@ const SearchModal = () => {
       dynamic(() => import("../Map"), {
         ssr: false,
       }),
-    [location]
+    []
   );
+
   const onBack = () => {
     setStep((value) => value - 1);
   };
-  const onNext = () => {
-    setStep((value) => value + 1);
-  };
+
   const onSubmit = useCallback(async () => {
+    const onNext = () => {
+      setStep((value) => value + 1);
+    };
     if (step !== STEPS.INFO) {
       return onNext();
     }
@@ -55,7 +57,7 @@ const SearchModal = () => {
     if (params) {
       currentQuery = queryString.parse(params.toString());
     }
-    const updatedQuery: any = {
+    const updatedQuery = {
       ...currentQuery,
       locationValue: location?.value,
       guestCount,
@@ -90,7 +92,7 @@ const SearchModal = () => {
     roomCount,
     bathroomCount,
     dateRange,
-    onNext,
+
     params,
   ]);
   const actionLabel = useMemo(() => {

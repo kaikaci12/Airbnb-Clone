@@ -1,11 +1,10 @@
-import Listing, { ListingType } from "@/models/Listing";
+import Listing from "@/models/Listing";
 import dbConnect from "@/lib/dbConnect";
 import getCurrentUser from "./getCurrentUser";
-import { SafeListing, SafeUser } from "../types";
 
 export default async function getFavoriteListings() {
   try {
-    const currentUser: SafeUser = await getCurrentUser();
+    const currentUser = await getCurrentUser();
 
     if (!currentUser) {
       return [];

@@ -10,7 +10,7 @@ interface IParams {
 export default async function getReservations(params: IParams) {
   try {
     const { listingId, userId, authorId } = params;
-    const query: any = {};
+    const query = {};
 
     if (listingId) {
       query.listingId = listingId;

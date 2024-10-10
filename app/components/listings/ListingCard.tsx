@@ -1,7 +1,7 @@
 "use client";
 import useCountries from "@/app/hooks/useCountries";
 import { format } from "date-fns";
-import { motion } from "framer-motion";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useMemo } from "react";
@@ -64,16 +64,9 @@ function ListingCard({
   }, [reservation]);
   const router = useRouter();
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{
-        duration: 0.8,
-        delay: 0.5,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
+    <div
       onClick={() => router.push(`/listings/${data._id}`)}
-      className="col-span-1 cursor-pointer group"
+      className="col-span-1 cursor-pointer group  z-0"
     >
       <div className="flex flex-col gap-2 w-full">
         <div className="aspect-square w-full relative overflow-hidden rounded-xl">
@@ -107,7 +100,7 @@ function ListingCard({
           />
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
 

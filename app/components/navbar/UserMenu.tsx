@@ -28,7 +28,7 @@ export default function UserMenu({ currentUser }: UserMenuProps) {
     rentModal.onOpen();
   }, [currentUser, loginModal, rentModal]);
   return (
-    <div className="relative">
+    <div className="relative ">
       <div className="flex flex-row items-center gap-3 ">
         <div
           className="hidden md:block text-sm font-semibold py-3 px-4  rounded-full hover:bg-neutral-100 transition cursor-pointer"
@@ -47,8 +47,8 @@ export default function UserMenu({ currentUser }: UserMenuProps) {
         </div>
       </div>
       {isOpen && (
-        <div className="absolute rounded-xl shadow-md w-[15vw] bg-white overflow-hidden top-12 right-0 text-sm">
-          <div className="flex flex-col cursor-pointer z-10">
+        <div className="absolute rounded-xl shadow-md w-[15vw] bg-white overflow-hidden top-12 right-0 text-sm z-[999]">
+          <div className="flex flex-col cursor-pointer z-[999]">
             {currentUser ? (
               <>
                 <MenuItem

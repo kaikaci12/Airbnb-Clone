@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useMemo, useState, useEffect } from "react";
-import Reservation, { ReservationType } from "@/models/Reservation";
+
 import { eachDayOfInterval, differenceInCalendarDays } from "date-fns";
 import { SafeListing, SafeUser, SafeReservation } from "@/app/types";
 import { categories } from "@/app/components/navbar/Categories";

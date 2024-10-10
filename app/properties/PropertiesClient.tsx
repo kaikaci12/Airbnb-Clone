@@ -1,5 +1,5 @@
 "use client";
-import { SafeListing, SafeReservation, SafeUser } from "../types";
+import { SafeListing, SafeUser } from "../types";
 import { useRouter } from "next/navigation";
 import Container from "../components/Container";
 import Heading from "../components/Heading";

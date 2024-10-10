@@ -16,7 +16,7 @@ interface InputProps {
 export default function Input({
   id,
   label,
-  type,
+
   disabled,
   formatPrice,
   register,

@@ -62,9 +62,9 @@ function RentModal({}: Props) {
       dynamic(() => import("../Map"), {
         ssr: false,
       }),
-    [location]
+    []
   );
-  const setCustomValue = (id: string, value: any) => {
+  const setCustomValue = (id: string, value) => {
     setValue(id, value, {
       shouldValidate: true,
       shouldDirty: true,

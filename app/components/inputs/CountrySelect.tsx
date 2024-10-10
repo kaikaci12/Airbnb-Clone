@@ -29,7 +29,7 @@ function CountrySelect({ value, onChange }: Props) {
         options={getAll()}
         value={value}
         onChange={(value) => onChange(value as CountrySelectValue)}
-        formatOptionLabel={(option: any) => (
+        formatOptionLabel={(option) => (
           <div className="flex flex-row items-center gap-3">
             <Flag code={option.value} className="w-5" />
             <div>
