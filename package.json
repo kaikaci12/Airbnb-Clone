@@ -41,6 +41,7 @@
     "react-spinners": "^0.14.1",
     "react-world-flags": "^1.6.0",
     "select": "^1.1.2",
+    "sharp": "^0.33.5",
     "uuid": "^10.0.0",
     "world-countries": "^5.0.0",
     "zustand": "^4.5.5"
@@ -58,6 +59,6 @@
     "prisma": "^5.19.1",
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   }
 }
